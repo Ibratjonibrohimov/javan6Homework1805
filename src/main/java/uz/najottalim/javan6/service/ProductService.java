@@ -12,4 +12,6 @@ public interface ProductService {
     String deleteProduct(Long id);
 
     ProductEntity getById(Long id);
+
+    List<ProductEntity> getResourceLimitOffset(Long limit, Long offset);
 }

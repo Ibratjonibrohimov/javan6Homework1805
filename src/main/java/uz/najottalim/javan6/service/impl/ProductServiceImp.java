@@ -1,6 +1,7 @@
 package uz.najottalim.javan6.service.impl;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,14 @@ public class ProductServiceImp implements ProductService {
     @Override
     public ProductEntity getById(Long id) {
         return entityManager.find(ProductEntity.class, id);
+    }
+
+    @Override
+    public List<ProductEntity> getResourceLimitOffset(Long limit, Long offset) {
+        TypedQuery<ProductEntity> query = (TypedQuery<ProductEntity>) entityManager.createNativeQuery("select * from product limit ? offset ?",ProductEntity.class);
+        query.setParameter(1,limit);
+        query.setParameter(2,offset);
+        return query.getResultList();
     }
 
 }

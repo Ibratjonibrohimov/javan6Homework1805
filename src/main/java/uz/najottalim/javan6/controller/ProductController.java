@@ -32,4 +32,8 @@ public class ProductController {
     public ProductEntity getProductById(@PathVariable Long id){
         return productService.getById(id);
     }
+    @GetMapping("/products/resources/limit/{limit}/offset/{offset}")
+    public List<ProductEntity> getResourceLimitOffset(@PathVariable Long limit,@PathVariable Long offset){
+        return productService.getResourceLimitOffset(limit,offset);
+    }
 }

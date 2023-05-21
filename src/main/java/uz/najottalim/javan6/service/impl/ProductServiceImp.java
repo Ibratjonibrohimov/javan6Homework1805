@@ -6,7 +6,10 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uz.najottalim.javan6.dto.ProductDto;
+import uz.najottalim.javan6.entity.OrderEntity;
 import uz.najottalim.javan6.entity.ProductEntity;
+import uz.najottalim.javan6.service.OrderService;
 import uz.najottalim.javan6.service.ProductService;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
     @Autowired
     EntityManager entityManager;
+
     @Override
     public List<ProductEntity> getAll() {
         TypedQuery<ProductEntity> nativeQuery = entityManager.createQuery("select p from ProductEntity p order by id", ProductEntity.class);
@@ -23,16 +27,24 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     @Transactional
-    public String addProduct(ProductEntity product) {
-        ProductEntity merge = entityManager.merge(product);
+    public String addProduct(ProductDto product) {
+        ProductEntity addProduct = new ProductEntity();
+        addProduct.setName(product.getName());
+        addProduct.setPrice(product.getPrice());
+        addProduct.setCategory(product.getCategory());
+        entityManager.persist(addProduct );
         return "Successfully added";
     }
 
     @Override
     @Transactional
-    public String updateproduct(Long id, ProductEntity product) {
-        product.setId(id);
-        entityManager.merge(product);
+    public String updateproduct(Long id, ProductDto product) {
+        ProductEntity byId = getById(id);
+        if(byId == null)return "Product not found";
+        byId.setCategory(product.getCategory());
+        byId.setName(product.getName());
+        byId.setPrice(product.getPrice());
+        entityManager.merge(byId);
         return "Successfully updated";
     }
 

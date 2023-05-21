@@ -2,6 +2,7 @@ package uz.najottalim.javan6.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import uz.najottalim.javan6.dto.ProductDto;
 import uz.najottalim.javan6.entity.ProductEntity;
 import uz.najottalim.javan6.service.ProductService;
 
@@ -16,11 +17,11 @@ public class ProductController {
         return productService.getAll();
     }
     @PostMapping("product/add")
-    public String addProduct(@RequestBody ProductEntity product){
+    public String addProduct(@RequestBody ProductDto product){
         return productService.addProduct(product);
     }
     @PutMapping("product/update/{id}")
-    public String updateProduct(@PathVariable Long id,@RequestBody ProductEntity product){
+    public String updateProduct(@PathVariable Long id,@RequestBody ProductDto product){
         return productService.updateproduct(id,product);
     }
     @DeleteMapping("/product/delete/{id}")

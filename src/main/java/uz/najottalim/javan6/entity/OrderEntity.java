@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.*;
 import java.time.LocalDate;
 
 @Data
@@ -23,4 +23,11 @@ public class OrderEntity {
     private String status;
     @ManyToOne()
     private CustomerEntity customer;
+    @ManyToMany()
+    @JoinTable(
+            name = "product_order_rel",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    List<ProductEntity>products;
 }

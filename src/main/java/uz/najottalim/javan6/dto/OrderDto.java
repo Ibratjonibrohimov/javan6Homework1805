@@ -14,4 +14,5 @@ public class OrderDto {
     private LocalDate deliveryDate;
     private String status;
     private Long customerId;
+    private Long[] productIds;
 }

@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dto.OrderDto;
 import uz.najottalim.javan6.entity.CustomerEntity;
 import uz.najottalim.javan6.entity.OrderEntity;
+import uz.najottalim.javan6.entity.ProductEntity;
 import uz.najottalim.javan6.service.CustomerService;
 import uz.najottalim.javan6.service.OrderService;
+import uz.najottalim.javan6.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class OrderServiceImp implements OrderService {
@@ -19,6 +22,8 @@ public class OrderServiceImp implements OrderService {
     EntityManager entityManager;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    ProductService productService;
     @Override
     public List<OrderEntity> getOrdersAll() {
         TypedQuery<OrderEntity> query = entityManager.createQuery("select o from OrderEntity o order by id",OrderEntity.class);
@@ -39,6 +44,12 @@ public class OrderServiceImp implements OrderService {
         order.setStatus(orderDto.getStatus());
         CustomerEntity customer = customerService.getById(orderDto.getCustomerId());
         order.setCustomer(customer);
+        List<ProductEntity> products = new ArrayList<>();
+        Long [] productIds = orderDto.getProductIds();
+        for (int i = 0; i < productIds.length; i++) {
+            products.add(productService.getById(productIds[i]));
+        }
+        order.setProducts(products);
         entityManager.merge(order);
         return "Successfully added";
     }
@@ -54,6 +65,12 @@ public class OrderServiceImp implements OrderService {
         order.setStatus(orderDto.getStatus());
         CustomerEntity customer = customerService.getById(orderDto.getCustomerId());
         order.setCustomer(customer);
+        List<ProductEntity> products = new ArrayList<>();
+        Long [] productIds = orderDto.getProductIds();
+        for (int i = 0; i < productIds.length; i++) {
+            products.add(productService.getById(productIds[i]));
+        }
+        order.setProducts(products);
         entityManager.merge(order);
         return "Successfully updated";
     }

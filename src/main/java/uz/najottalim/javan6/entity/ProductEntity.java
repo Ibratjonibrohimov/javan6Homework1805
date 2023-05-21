@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.*;
 
 @Data
 @Entity
@@ -17,5 +18,4 @@ public class ProductEntity {
     private String category;
     private String name;
     private Double price;
-
 }
